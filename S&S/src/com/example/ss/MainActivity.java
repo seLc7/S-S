@@ -15,8 +15,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        Button startBtn= (Button)findViewById(R.id.save_btn);
-        Button searchBtn = (Button)findViewById(R.id.search_btn);
+        Button startBtn= (Button)findViewById(R.id.main_btn_save);
+        Button searchBtn = (Button)findViewById(R.id.main_btn_search);
         
         startBtn.setOnClickListener(new OnClickListener() {
 			
