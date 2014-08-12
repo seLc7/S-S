@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="4dip"
+    android:paddingLeft="12dip"
+    android:paddingRight="12dip" >
+
+    <TextView
+        android:id="@+id/name_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="6dip"
+        android:textColor="#ccc"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/phonenum_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_list"
+        android:maxLines="2"
+        android:paddingRight="20dip"
+        android:textColor="#fff" />
+
+</RelativeLayout>

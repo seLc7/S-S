@@ -1,22 +1,29 @@
 package com.example.ss;
 
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 public class MainActivity extends Activity {
 
 	SQLiteDatabase db;
 	ListView listview;
+	private boolean result = false;
+	// 存储数据的数组列表
+	ArrayList<HashMap<String, Object>> listData;
+	// 适配器
+	SimpleAdapter listItemAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +65,42 @@ public class MainActivity extends Activity {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		Cursor cursor = db.rawQuery("select * from information", null);
-		inflateList(cursor);
+
+		String sql = "select count(*) as c from sqlite_master where type ='table' and name ='information';";
+		Cursor cur = db.rawQuery(sql, null);
+		
+		if (cur.moveToNext()) {
+			int count = cur.getInt(0);
+			if (count > 0) {
+				result = true;
+			}
+		}
+		if (result == true) {
+			Cursor cursor = db.rawQuery("select * from information", null);
+			inflateList(cursor);
+		}
 	}
 
-	private void inflateList(Cursor cursor) {
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-				R.id.listview_db, cursor, new String[] { "name", "phonenum" },
-				null,CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		listview.setAdapter(adapter);
+	private void inflateList(Cursor c) {
+		int column = c.getColumnCount();
+		listData = new ArrayList<HashMap<String, Object>>();
+		// 获取表的内容
+		while (c.moveToNext()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			for (int i = 0; i < column; i++) {
+				map.put("username", c.getString(1));
+				map.put("phonenum", c.getString(2));
+			}
+			listData.add(map);
+		}
+		listItemAdapter = new SimpleAdapter(this, listData,// 数据源
+				R.layout.item_list,// ListItem的XML实现
+				// 动态数组与ImageItem对应的子项
+				new String[] { "name", "phonenum" },
+				// ImageItem的XML文件里面的一个ImageView,两个TextView ID
+				new int[] { R.id.name_list, R.id.phonenum_list });
+		listview.setAdapter(listItemAdapter);
+		//listview.setOnCreateContextMenuListener(listviewLongPress);
 	}
 
 	@Override

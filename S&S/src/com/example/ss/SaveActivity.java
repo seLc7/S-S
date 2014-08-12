@@ -52,9 +52,10 @@ public class SaveActivity extends Activity {
 				try {
 					insertData(db, nameStr, phoneNumStr);
 				} catch (SQLiteException se) {
-					db.execSQL("create table information(_id integer primary key autoincrement,"
+					db.execSQL("create table if not exists information(_id integer primary key autoincrement,"
 							+ "name varchar(50),phonenum varchar(50))");
 					insertData(db, nameStr, phoneNumStr);
+					System.out.println("insert error!");
 				}
 			}
 		});
