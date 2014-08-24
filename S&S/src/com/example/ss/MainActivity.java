@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
 
 		Button startBtn = (Button) findViewById(R.id.main_btn_save);
 		Button searchBtn = (Button) findViewById(R.id.main_btn_search);
+		listview = (ListView)findViewById(R.id.listview_db);
 
 		startBtn.setOnClickListener(new OnClickListener() {
 
@@ -68,12 +69,15 @@ public class MainActivity extends Activity {
 
 		String sql = "select count(*) as c from sqlite_master where type ='table' and name ='information';";
 		Cursor cur = db.rawQuery(sql, null);
-		
-		if (cur.moveToNext()) {
+		System.out.println("count:"+cur.getCount());
+		/*if (cur.moveToNext()) {
 			int count = cur.getInt(0);
 			if (count > 0) {
 				result = true;
 			}
+		}*/
+		if (cur.getCount() != 0) {
+			result = true;
 		}
 		if (result == true) {
 			Cursor cursor = db.rawQuery("select * from information", null);
@@ -82,22 +86,24 @@ public class MainActivity extends Activity {
 	}
 
 	private void inflateList(Cursor c) {
-		int column = c.getColumnCount();
+		int count = c.getCount();
 		listData = new ArrayList<HashMap<String, Object>>();
 		// 获取表的内容
 		while (c.moveToNext()) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			for (int i = 0; i < column; i++) {
-				map.put("username", c.getString(1));
+			for (int i = 0; i < count; i++) {
+				map.put("name", c.getString(1));
+				System.out.println(c.getString(1));
 				map.put("phonenum", c.getString(2));
+				System.out.println(c.getString(2));
+				listData.add(map);
 			}
-			listData.add(map);
+			
+			System.out.println(map);
 		}
-		listItemAdapter = new SimpleAdapter(this, listData,// 数据源
+		listItemAdapter = new SimpleAdapter(MainActivity.this, listData,// 数据源
 				R.layout.item_list,// ListItem的XML实现
-				// 动态数组与ImageItem对应的子项
 				new String[] { "name", "phonenum" },
-				// ImageItem的XML文件里面的一个ImageView,两个TextView ID
 				new int[] { R.id.name_list, R.id.phonenum_list });
 		listview.setAdapter(listItemAdapter);
 		//listview.setOnCreateContextMenuListener(listviewLongPress);
