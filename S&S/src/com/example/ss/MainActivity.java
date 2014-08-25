@@ -70,15 +70,15 @@ public class MainActivity extends Activity {
 		String sql = "select count(*) as c from sqlite_master where type ='table' and name ='information';";
 		Cursor cur = db.rawQuery(sql, null);
 		System.out.println("count:"+cur.getCount());
-		/*if (cur.moveToNext()) {
+		if (cur.moveToNext()) {
 			int count = cur.getInt(0);
 			if (count > 0) {
 				result = true;
 			}
-		}*/
-		if (cur.getCount() != 0) {
-			result = true;
 		}
+		/*if (cur.getCount() != 0) {
+			result = true;
+		}*/
 		if (result == true) {
 			Cursor cursor = db.rawQuery("select * from information", null);
 			inflateList(cursor);
@@ -96,9 +96,8 @@ public class MainActivity extends Activity {
 				System.out.println(c.getString(1));
 				map.put("phonenum", c.getString(2));
 				System.out.println(c.getString(2));
-				listData.add(map);
 			}
-			
+			listData.add(map);
 			System.out.println(map);
 		}
 		listItemAdapter = new SimpleAdapter(MainActivity.this, listData,// 数据源
