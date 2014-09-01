@@ -1,4 +1,6 @@
-package com.example.ss;
+package com.cheng.ss;
+
+import com.example.ss.R;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +17,7 @@ import android.widget.EditText;
  * @author Cheng
  * 
  */
-public class SaveActivity extends Activity {
+public class AddActivity extends Activity {
 
 	private String nameStr, phoneNumStr;
 	private EditText name;

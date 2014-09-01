@@ -1,7 +1,9 @@
-package com.example.ss;
+package com.cheng.ss;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.example.ss.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,31 +34,28 @@ public class MainActivity extends Activity {
 
 		Button startBtn = (Button) findViewById(R.id.main_btn_save);
 		Button searchBtn = (Button) findViewById(R.id.main_btn_search);
-		listview = (ListView)findViewById(R.id.listview_db);
+		listview = (ListView) findViewById(R.id.listview_db);
 
 		startBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,
-						SaveActivity.class);
+				Intent intent = new Intent(MainActivity.this, AddActivity.class);
 				startActivity(intent);
 
 			}
 		});
 
-		searchBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,
-						SearchActivity.class);
-				startActivity(intent);
-
-			}
-		});
+		/*
+		 * searchBtn.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { // TODO Auto-generated method
+		 * stub Intent intent = new Intent(MainActivity.this,
+		 * SearchActivity.class); startActivity(intent);
+		 * 
+		 * } });
+		 */
 
 		db = SQLiteDatabase.openOrCreateDatabase(this.getFilesDir().toString()
 				+ "/my.db3", null);
@@ -69,16 +68,16 @@ public class MainActivity extends Activity {
 
 		String sql = "select count(*) as c from sqlite_master where type ='table' and name ='information';";
 		Cursor cur = db.rawQuery(sql, null);
-		System.out.println("count:"+cur.getCount());
+		System.out.println("count:" + cur.getCount());
 		if (cur.moveToNext()) {
 			int count = cur.getInt(0);
 			if (count > 0) {
 				result = true;
 			}
 		}
-		/*if (cur.getCount() != 0) {
-			result = true;
-		}*/
+		/*
+		 * if (cur.getCount() != 0) { result = true; }
+		 */
 		if (result == true) {
 			Cursor cursor = db.rawQuery("select * from information", null);
 			inflateList(cursor);
@@ -91,21 +90,21 @@ public class MainActivity extends Activity {
 		// 获取表的内容
 		while (c.moveToNext()) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			for (int i = 0; i < count; i++) {
-				map.put("name", c.getString(1));
-				System.out.println(c.getString(1));
-				map.put("phonenum", c.getString(2));
-				System.out.println(c.getString(2));
-			}
+
+			map.put("name", c.getString(1));
+			System.out.println(c.getString(1));
+			map.put("phonenum", c.getString(2));
+			System.out.println(c.getString(2));
+
 			listData.add(map);
 			System.out.println(map);
 		}
 		listItemAdapter = new SimpleAdapter(MainActivity.this, listData,// 数据源
 				R.layout.item_list,// ListItem的XML实现
-				new String[] { "name", "phonenum" },
-				new int[] { R.id.name_list, R.id.phonenum_list });
+				new String[] { "name", "phonenum" }, new int[] {
+						R.id.name_list, R.id.phonenum_list });
 		listview.setAdapter(listItemAdapter);
-		//listview.setOnCreateContextMenuListener(listviewLongPress);
+		// listview.setOnCreateContextMenuListener(listviewLongPress);
 	}
 
 	@Override
