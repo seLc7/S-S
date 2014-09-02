@@ -24,6 +24,7 @@ public class AddActivity extends Activity {
 	private EditText phoneNum;
 	private Button saveBtn;
 	SQLiteDatabase db;
+	DBManager manager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,9 @@ public class AddActivity extends Activity {
 		phoneNum = (EditText) findViewById(R.id.save_edit_phonenum);
 		saveBtn = (Button) findViewById(R.id.save_btn_save);
 
-		db = SQLiteDatabase.openOrCreateDatabase(this.getFilesDir().toString()
-				+ "/my.db3", null);
+		/*db = SQLiteDatabase.openOrCreateDatabase(this.getFilesDir().toString()
+				+ "/my.db3", null);*/
+		manager =new DBManager(this);
 	}
 
 	@Override
@@ -51,14 +53,17 @@ public class AddActivity extends Activity {
 				nameStr = name.getText().toString();
 				phoneNumStr = phoneNum.getText().toString();
 
-				try {
+				Information info =new Information(nameStr,phoneNumStr);
+				manager.add(info);
+				System.out.println(info.name+info.phoneNum);
+				/*try {
 					insertData(db, nameStr, phoneNumStr);
 				} catch (SQLiteException se) {
 					db.execSQL("create table if not exists information(_id integer primary key autoincrement,"
 							+ "name varchar(50),phonenum varchar(50))");
 					insertData(db, nameStr, phoneNumStr);
 					System.out.println("insert error!");
-				}
+				}*/
 			}
 		});
 	}

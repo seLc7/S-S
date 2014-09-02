@@ -2,6 +2,8 @@ package com.cheng.ss;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.example.ss.R;
 
@@ -22,6 +24,8 @@ public class MainActivity extends Activity {
 	SQLiteDatabase db;
 	ListView listview;
 	private boolean result = false;
+	
+	DBManager manager;
 	// 存储数据的数组列表
 	ArrayList<HashMap<String, Object>> listData;
 	// 适配器
@@ -46,6 +50,9 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		
+		manager = new DBManager(this);
+		//System.out.println("inflate manager!");
 
 		/*
 		 * searchBtn.setOnClickListener(new OnClickListener() {
@@ -57,16 +64,17 @@ public class MainActivity extends Activity {
 		 * } });
 		 */
 
-		db = SQLiteDatabase.openOrCreateDatabase(this.getFilesDir().toString()
-				+ "/my.db3", null);
+		/*db = SQLiteDatabase.openOrCreateDatabase(this.getFilesDir().toString()
+				+ "/my.db3", null);*/
 	}
 
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-
-		String sql = "select count(*) as c from sqlite_master where type ='table' and name ='information';";
+		
+		setList();
+		/*String sql = "select count(*) as c from sqlite_master where type ='table' and name ='information';";
 		Cursor cur = db.rawQuery(sql, null);
 		System.out.println("count:" + cur.getCount());
 		if (cur.moveToNext()) {
@@ -75,15 +83,32 @@ public class MainActivity extends Activity {
 				result = true;
 			}
 		}
-		/*
+		
 		 * if (cur.getCount() != 0) { result = true; }
-		 */
+		 
 		if (result == true) {
 			Cursor cursor = db.rawQuery("select * from information", null);
-			inflateList(cursor);
-		}
+			//inflateList(cursor);
+			setList();
+		}*/
 	}
 
+	 public void setList() {  
+	        List<Information> infos = manager.selectAll(); 
+	        System.out.println(infos);
+	        listData = new ArrayList<HashMap<String, Object>>(); 
+	        for (Information info : infos) {  
+	        	HashMap<String, Object> map = new HashMap<String, Object>();
+	            map.put("name", info.name);  
+	            map.put("phonenum", info.phoneNum);  
+	            listData.add(map);
+	        }  
+	        listItemAdapter = new SimpleAdapter(MainActivity.this, listData,// 数据源
+					R.layout.item_list,// ListItem的XML实现
+					new String[] { "name", "phonenum" }, new int[] {
+							R.id.name_list, R.id.phonenum_list });
+			listview.setAdapter(listItemAdapter); 
+	    }  
 	private void inflateList(Cursor c) {
 		int count = c.getCount();
 		listData = new ArrayList<HashMap<String, Object>>();
@@ -112,6 +137,13 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		manager.closeDB();
 	}
 
 }

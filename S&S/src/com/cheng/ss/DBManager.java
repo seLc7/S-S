@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 public class DBManager {
 	private DBHelper helper;
@@ -19,15 +20,19 @@ public class DBManager {
 		db = helper.getWritableDatabase();
 	}
 
-	public void add(List<Information> infos) {
+	public void add(Information info) {
 		db.beginTransaction(); // 开始事务
 		try {
-			for (Information info : infos) {
-				db.execSQL("INSERT INTO information VALUES(null, ?, ?)",
-						new Object[] { info.name, info.phoneNum });
-			}
+			db.execSQL("INSERT INTO information VALUES(null, ?, ?)",
+					new Object[] { info.name, info.phoneNum });
 			db.setTransactionSuccessful(); // 设置事务成功完成
-		} finally {
+		}catch (SQLiteException se) {
+			db.execSQL("create table if not exists information(_id integer primary key autoincrement,"
+					+ "name varchar(50),phonenum varchar(50))");
+			db.execSQL("INSERT INTO information VALUES(null, ?, ?)",
+					new Object[] { info.name, info.phoneNum });
+			System.out.println("insert error!");
+		}finally {
 			db.endTransaction(); // 结束事务
 		}
 	}
@@ -41,14 +46,14 @@ public class DBManager {
 	 * "age >= ?", new String[] { String.valueOf(person.age) }); }
 	 */
 
-	public List<Information> setList() {
+	public List<Information> selectAll() {
 		ArrayList<Information> infos = new ArrayList<Information>();
 		Cursor c = db.rawQuery("SELECT * FROM information", null);
 		while (c.moveToNext()) {
 			Information info = new Information();
-			
+
 			info.name = c.getString(c.getColumnIndex("name"));
-			info.phoneNum = c.getInt(c.getColumnIndex("phoneNume"));
+			info.phoneNum = c.getString(c.getColumnIndex("phonenum"));
 
 			infos.add(info);
 		}
