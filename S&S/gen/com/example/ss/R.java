@@ -21,11 +21,14 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int ic_add=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int ic_search=0x7f020002;
     }
     public static final class id {
         public static final int RelativeLayout=0x7f080009;
-        public static final int action_settings=0x7f08000c;
+        public static final int action_add=0x7f08000c;
+        public static final int action_search=0x7f08000d;
         public static final int add_btn_save=0x7f080004;
         public static final int add_edit_name=0x7f080001;
         public static final int add_edit_phonenum=0x7f080003;
@@ -60,11 +63,13 @@ public final class R {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
         
 
         Base application theme for API 11+. This theme completely replaces
@@ -83,5 +88,6 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
+        public static final int HoloTheme=0x7f060002;
     }
 }
