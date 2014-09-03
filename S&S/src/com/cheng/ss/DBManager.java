@@ -26,13 +26,13 @@ public class DBManager {
 			db.execSQL("INSERT INTO information VALUES(null, ?, ?)",
 					new Object[] { info.name, info.phoneNum });
 			db.setTransactionSuccessful(); // 设置事务成功完成
-		}catch (SQLiteException se) {
+		} catch (SQLiteException se) {
 			db.execSQL("create table if not exists information(_id integer primary key autoincrement,"
 					+ "name varchar(50),phonenum varchar(50))");
 			db.execSQL("INSERT INTO information VALUES(null, ?, ?)",
 					new Object[] { info.name, info.phoneNum });
 			System.out.println("insert error!");
-		}finally {
+		} finally {
 			db.endTransaction(); // 结束事务
 		}
 	}
@@ -45,7 +45,8 @@ public class DBManager {
 	 * public void deleteOldPerson(Person person) { db.delete("person",
 	 * "age >= ?", new String[] { String.valueOf(person.age) }); }
 	 */
-
+	
+	// 进行全部查询
 	public List<Information> selectAll() {
 		ArrayList<Information> infos = new ArrayList<Information>();
 		Cursor c = db.rawQuery("SELECT * FROM information", null);
@@ -61,6 +62,7 @@ public class DBManager {
 		return infos;
 	}
 
+	// 关闭数据库
 	public void closeDB() {
 		db.close();
 	}

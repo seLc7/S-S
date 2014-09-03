@@ -23,16 +23,16 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/main_btn_save"
+            android:id="@+id/main_btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SAVE" />
+            android:text="@string/add" />
 
         <Button
             android:id="@+id/main_btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search" />
+            android:text="@string/search" />
     </LinearLayout>
 
 </RelativeLayout>
