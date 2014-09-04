@@ -48,12 +48,17 @@ public class AddActivity extends Activity {
 				// TODO Auto-generated method stub
 				nameStr = name.getText().toString();
 				phoneNumStr = phoneNum.getText().toString();
-
-				Information info = new Information(nameStr, phoneNumStr);
-				manager.add(info);
-				System.out.println(info.name + info.phoneNum);
-				Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show(); // 显示toast
-				finish(); //关闭AddActivity
+				if (nameStr.equals("") && phoneNumStr.equals("")) {
+					Toast.makeText(getApplicationContext(), "全部空白是不允许的哟~o(￣ヘ￣o＃)",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Information info = new Information(nameStr, phoneNumStr);
+					manager.add(info);
+					System.out.println(info.name + info.phoneNum);
+					Toast.makeText(getApplicationContext(), "添加成功",
+							Toast.LENGTH_SHORT).show(); // 显示toast
+					finish(); // 关闭AddActivity
+				}
 			}
 		});
 	}

@@ -11,7 +11,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="6dip"
-        android:textSize="18sp" />
+        android:textSize="18sp" 
+        android:textColor="#336699"/>
 
     <TextView
         android:id="@+id/phonenum_list"
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/name_list"
         android:maxLines="2"
-        android:paddingRight="20dip" />
+        android:paddingRight="20dip" 
+        android:textColor="#6699cc"/>
 
 </RelativeLayout>

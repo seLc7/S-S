@@ -7,14 +7,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+
 /**
  * Manager类，保护对数据库的一些操作
+ * 
  * @author Cheng
- *
+ * 
  */
 public class DBManager {
 	private DBHelper helper;
 	private SQLiteDatabase db;
+	List<Information> infos;
 
 	public DBManager(Context context) {
 		helper = new DBHelper(context);
@@ -49,11 +52,24 @@ public class DBManager {
 	 * public void deleteOldPerson(Person person) { db.delete("person",
 	 * "age >= ?", new String[] { String.valueOf(person.age) }); }
 	 */
-	
+
 	// 进行全部查询
 	public List<Information> selectAll() {
-		ArrayList<Information> infos = new ArrayList<Information>();
+		infos = new ArrayList<Information>();
 		Cursor c = db.rawQuery("SELECT * FROM information", null);
+		infos = select(c);
+		return infos;
+	}
+
+	// 进行关键字查询
+	public List<Information> selectKey(String key) {
+		infos = new ArrayList<Information>();
+		Cursor c = db.rawQuery("select * from information where name like '%"
+				+ key + "%' or phonenum like'%" + key + "%'", null);
+		return infos = select(c);
+	}
+	//搜索方法
+	public List<Information> select(Cursor c) {
 		while (c.moveToNext()) {
 			Information info = new Information();
 
