@@ -3,7 +3,11 @@ package com.cheng.ss;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+/**
+ * Helper类，负责初始化数据库
+ * @author Cheng
+ *
+ */
 public class DBHelper extends SQLiteOpenHelper {
 
 	private final static String DATABASE_NAME = "ss.db";

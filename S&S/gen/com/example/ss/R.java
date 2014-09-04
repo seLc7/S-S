@@ -27,8 +27,8 @@ public final class R {
     }
     public static final class id {
         public static final int RelativeLayout=0x7f080009;
-        public static final int action_add=0x7f08000c;
-        public static final int action_search=0x7f08000d;
+        public static final int action_add=0x7f08000d;
+        public static final int action_search=0x7f08000c;
         public static final int add_btn_save=0x7f080004;
         public static final int add_edit_name=0x7f080001;
         public static final int add_edit_phonenum=0x7f080003;

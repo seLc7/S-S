@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * 负责添加信息
+ * 添加信息类
  * 
  * @author Cheng
  * 

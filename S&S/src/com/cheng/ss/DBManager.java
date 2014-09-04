@@ -7,7 +7,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-
+/**
+ * Manager类，保护对数据库的一些操作
+ * @author Cheng
+ *
+ */
 public class DBManager {
 	private DBHelper helper;
 	private SQLiteDatabase db;
