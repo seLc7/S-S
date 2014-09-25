@@ -24,6 +24,7 @@ public final class R {
         public static final int ic_add=0x7f020000;
         public static final int ic_launcher=0x7f020001;
         public static final int ic_search=0x7f020002;
+        public static final int reader_item_divider=0x7f020003;
     }
     public static final class id {
         public static final int RelativeLayout=0x7f08000a;
@@ -35,12 +36,12 @@ public final class R {
         public static final int add_text_name=0x7f080000;
         public static final int add_text_phonenum=0x7f080002;
         public static final int linearlayout=0x7f080006;
-        public static final int listview_db=0x7f080005;
         public static final int main_btn_add=0x7f080007;
         public static final int main_btn_search=0x7f080008;
         public static final int name_list=0x7f08000b;
         public static final int phonenum_list=0x7f08000c;
         public static final int search_edittext=0x7f080009;
+        public static final int slideCutListView=0x7f080005;
     }
     public static final class layout {
         public static final int activity_add=0x7f030000;

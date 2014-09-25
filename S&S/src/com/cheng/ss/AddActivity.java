@@ -48,7 +48,7 @@ public class AddActivity extends Activity {
 				// TODO Auto-generated method stub
 				nameStr = name.getText().toString();
 				phoneNumStr = phoneNum.getText().toString();
-				if (nameStr.equals("") && phoneNumStr.equals("")) {
+				if (nameStr.equals("") && phoneNumStr.equals("")) { // 非空验证
 					Toast.makeText(getApplicationContext(), "全部空白是不允许的哟~o(￣ヘ￣o＃)",
 							Toast.LENGTH_SHORT).show();
 				} else {

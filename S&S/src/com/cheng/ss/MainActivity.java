@@ -15,15 +15,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
+import com.cheng.ss.SlideCutListView;
+import com.cheng.ss.SlideCutListView.RemoveDirection;
+import com.cheng.ss.SlideCutListView.RemoveListener;
 import com.example.ss.R;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements RemoveListener {
 
 	SQLiteDatabase db;
 	ListView listview;
@@ -34,16 +40,21 @@ public class MainActivity extends Activity {
 	// 适配器
 	SimpleAdapter listItemAdapter;
 
+	private SlideCutListView slideCutListView;
+	private ArrayAdapter<HashMap<String, Object>> adapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Button startBtn = (Button) findViewById(R.id.main_btn_add);
+		Button addBtn = (Button) findViewById(R.id.main_btn_add);
 		Button searchBtn = (Button) findViewById(R.id.main_btn_search);
-		listview = (ListView) findViewById(R.id.listview_db);
+		// listview = (ListView) findViewById(R.id.listview_db);
+		slideCutListView = (SlideCutListView) findViewById(R.id.slideCutListView);
+		slideCutListView.setRemoveListener(this);
 
-		startBtn.setOnClickListener(new OnClickListener() {
+		addBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -54,11 +65,11 @@ public class MainActivity extends Activity {
 			}
 		});
 		searchBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				searchAlertDialog();//弹出搜索对话框
+				searchAlertDialog();// 弹出搜索对话框
 			}
 		});
 		manager = new DBManager(this);
@@ -69,7 +80,7 @@ public class MainActivity extends Activity {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		setList(manager.selectAll());//全部查询，初始化listview
+		setList(manager.selectAll());// 全部查询，初始化listview
 	}
 
 	// 初始化listview
@@ -78,14 +89,31 @@ public class MainActivity extends Activity {
 		for (Information info : infos) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("name", info.name); // 姓名
-			map.put("phonenum", "Tel:"+info.phoneNum); // 电话
+			map.put("phonenum", "Tel:" + info.phoneNum); // 电话
 			listData.add(map);
 		}
+		/*
+		 * listItemAdapter = new SimpleAdapter(MainActivity.this, listData,//
+		 * 数据源 R.layout.item_list,// ListItem的XML实现 new String[] { "name",
+		 * "phonenum" }, new int[] { R.id.name_list, R.id.phonenum_list });
+		 * listview.setAdapter(listItemAdapter);
+		 */
 		listItemAdapter = new SimpleAdapter(MainActivity.this, listData,// 数据源
 				R.layout.item_list,// ListItem的XML实现
 				new String[] { "name", "phonenum" }, new int[] {
 						R.id.name_list, R.id.phonenum_list });
-		listview.setAdapter(listItemAdapter);
+		slideCutListView.setAdapter(listItemAdapter);
+
+		slideCutListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				/*Toast.makeText(MainActivity.this,
+						(CharSequence) listData.get(position),
+						Toast.LENGTH_SHORT).show();*/
+			}
+		});
 	}
 
 	@Override
@@ -95,7 +123,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	//ActionBar按钮事件
+	// ActionBar按钮事件
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -109,29 +137,29 @@ public class MainActivity extends Activity {
 			return true;
 
 		case R.id.action_add:
-			//添加
-			Intent addIntent = new Intent(this,AddActivity.class);
+			// 添加
+			Intent addIntent = new Intent(this, AddActivity.class);
 			startActivity(addIntent);
 			return true;
-		
+
 		case R.id.action_search:
-			//搜索
+			// 搜索
 			searchAlertDialog();
-		
+
 		default:
 
 			return super.onOptionsItemSelected(item);
 
 		}
 	}
-	
+
 	// 搜索对话框
-	private void searchAlertDialog(){
+	private void searchAlertDialog() {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(
 				MainActivity.this); // AlertDialog
 		LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
 		final View view = inflater.inflate(R.layout.dialog_search, null);
-		
+
 		alertDialog.setTitle(R.string.search);
 		alertDialog.setView(view);
 		alertDialog.setPositiveButton("搜索",
@@ -141,7 +169,7 @@ public class MainActivity extends Activity {
 						EditText keyWordText = (EditText) view
 								.findViewById(R.id.search_edittext);
 						String keyWord = keyWordText.getText().toString(); // 获取输入的关键字
-						setList(manager.selectKey(keyWord)); //listview 显示搜索结果
+						setList(manager.selectKey(keyWord)); // listview 显示搜索结果
 					}
 				});
 
@@ -153,11 +181,33 @@ public class MainActivity extends Activity {
 				});
 		alertDialog.create().show();
 	}
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		manager.closeDB();
+	}
+
+	// 滑动删除之后的回调方法
+	@Override
+	public void removeItem(RemoveDirection direction, int position) {
+		// TODO Auto-generated method stub
+		adapter.remove(adapter.getItem(position));
+
+		switch (direction) {
+		case RIGHT:
+			Toast.makeText(this, "向右删除  " + position, Toast.LENGTH_SHORT)
+					.show();
+			break;
+		case LEFT:
+			Toast.makeText(this, "向左删除  " + position, Toast.LENGTH_SHORT)
+					.show();
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

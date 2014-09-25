@@ -8,11 +8,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
+    <!--
     <ListView
         android:id="@+id/listview_db"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </ListView>
+    -->
+
+    <com.cheng.ss.SlideCutListView
+        android:id="@+id/slideCutListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@drawable/reader_item_divider"
+        android:listSelector="@android:color/transparent" >
+    </com.cheng.ss.SlideCutListView>
 
     <LinearLayout
         android:id="@+id/linearlayout"
