@@ -88,6 +88,7 @@ public class MainActivity extends Activity implements RemoveListener {
 		listData = new ArrayList<HashMap<String, Object>>();
 		for (Information info : infos) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", info.id);
 			map.put("name", info.name); // 姓名
 			map.put("phonenum", "Tel:" + info.phoneNum); // 电话
 			listData.add(map);
@@ -193,7 +194,8 @@ public class MainActivity extends Activity implements RemoveListener {
 	@Override
 	public void removeItem(RemoveDirection direction, int position) {
 		// TODO Auto-generated method stub
-		adapter.remove(adapter.getItem(position));
+		//((List<Information>) listItemAdapter).remove(listItemAdapter.getItem(position));
+		System.out.println(listItemAdapter.getItem(position));
 
 		switch (direction) {
 		case RIGHT:

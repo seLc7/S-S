@@ -5,7 +5,7 @@ package com.cheng.ss;
  *
  */
 public class Information {
-	public int _id;
+	public int id;
 	public String name;
 	public String phoneNum;
 
@@ -16,5 +16,9 @@ public class Information {
 		this.name = name;
 		this.phoneNum = phoneNum;
 	}
-
+	public Information(int id, String name,String phoneNum){
+		this.id=id;
+		this.name=name;
+		this.phoneNum=phoneNum;
+	}
 }

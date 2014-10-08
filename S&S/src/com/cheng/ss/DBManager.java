@@ -72,7 +72,8 @@ public class DBManager {
 	public List<Information> select(Cursor c) {
 		while (c.moveToNext()) {
 			Information info = new Information();
-
+			
+			info.id=c.getInt(c.getColumnIndex("_id"));
 			info.name = c.getString(c.getColumnIndex("name"));
 			info.phoneNum = c.getString(c.getColumnIndex("phonenum"));
 
